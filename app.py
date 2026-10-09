@@ -1,10 +1,29 @@
-
 import streamlit as st
 import pandas as pd
 import joblib
 import plotly.graph_objects as go
-model = joblib.load("model/popularity_model.pkl")
-age_tracks = pd.read_csv("data/top_tracks_by_age.csv")
+import gdown
+import os
+
+# Download the trained model from Google Drive
+MODEL_PATH = "popularity_model.pkl"
+MODEL_FILE_ID = "1bgxczFAT1oMPosLkvuSTeCR8MotHQbb-"
+
+if not os.path.exists(MODEL_PATH):
+    with st.spinner("Downloading the trained model. Please wait..."):
+        gdown.download(
+            f"https://drive.google.com/uc?id={MODEL_FILE_ID}",
+            MODEL_PATH,
+            quiet=False
+        )
+
+if not os.path.exists(MODEL_PATH) or os.path.getsize(MODEL_PATH) == 0:
+    st.error("Could not download the model. Please check the Google Drive sharing settings.")
+    st.stop()
+
+model = joblib.load(MODEL_PATH)
+
+age_tracks = pd.read_csv("top_tracks_by_age.csv")
 
 # Load the Spotify dataset for song-name search
 spotify_df = pd.read_csv(
@@ -14,7 +33,6 @@ spotify_df = pd.read_csv(
 spotify_df = spotify_df.dropna(
     subset=["artists", "track_name"]
 )
-
 # -----------------------------
 # Page Title
 # -----------------------------
