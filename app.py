@@ -27,7 +27,7 @@ age_tracks = pd.read_csv("top_tracks_by_age.csv")
 
 # Load the Spotify dataset for song-name search
 spotify_df = pd.read_csv(
-    "data/spotify-tracks-dataset-detailed.csv"
+    "spotify-tracks-dataset-detailed.csv"
 )
 
 spotify_df = spotify_df.dropna(
