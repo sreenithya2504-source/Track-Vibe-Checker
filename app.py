@@ -17,19 +17,22 @@ if not os.path.exists(MODEL_PATH):
             quiet=False
         )
 
-# Load the model and age-wise listening data
+if not os.path.exists(MODEL_PATH) or os.path.getsize(MODEL_PATH) == 0:
+    st.error("Could not download the model. Please check the Google Drive sharing settings.")
+    st.stop()
+
 model = joblib.load(MODEL_PATH)
-age_tracks = pd.read_csv("top_tracks_by_age.csv")
+
+age_tracks = pd.read_csv("data/top_tracks_by_age.csv")
 
 # Load the Spotify dataset for song-name search
 spotify_df = pd.read_csv(
-    "spotify-tracks-dataset-detailed.csv"
+    "data/spotify-tracks-dataset-detailed.csv"
 )
 
 spotify_df = spotify_df.dropna(
     subset=["artists", "track_name"]
 )
-
 # -----------------------------
 # Page Title
 # -----------------------------
@@ -335,3 +338,4 @@ if st.button("Search Song"):
                 "It does not represent all listening events or "
                 "a complete comparison of age-group preferences."
             )
+
