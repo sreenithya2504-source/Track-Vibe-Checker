@@ -30,9 +30,18 @@ spotify_df = pd.read_csv(
     "spotify-tracks-dataset-detailed.csv"
 )
 
+
 spotify_df = spotify_df.dropna(
     subset=["artists", "track_name"]
 )
+
+# Check memory usage of the datasets
+print("Age dataset memory:")
+print(age_tracks.memory_usage(deep=True).sum() / (1024 ** 2), "MB")
+
+print("Spotify dataset memory:")
+print(spotify_df.memory_usage(deep=True).sum() / (1024 ** 2), "MB")
+
 # -----------------------------
 # Page Title
 # -----------------------------
